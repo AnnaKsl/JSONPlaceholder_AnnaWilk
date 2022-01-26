@@ -32,6 +32,10 @@ public class PostIT extends BaseIT {
         var response = postEndpoint.getAllPosts();
         var allPosts = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), Post[].class));
         Assertions.assertEquals(allPosts.size(), 100);
+
+
+
+        //hrllo
     }
 
     @Test
