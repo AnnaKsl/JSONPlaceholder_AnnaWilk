@@ -5,7 +5,11 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 //nazwe zmiennych żeby miało odpowiednie cases
@@ -32,6 +36,14 @@ public class PostIT extends BaseIT {
         var response = postEndpoint.getAllPosts();
         var allPosts = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), Post[].class));
         Assertions.assertEquals(allPosts.size(), 100);
+        int idOfThePost = getSpecificPostId(allPosts,"qui est esse");
+        System.out.print("Post with the title 'qui est esse' is the one with id " + idOfThePost);
+    }
+    public static int getSpecificPostId(List<Post> allPosts, String title){
+        Stream<Post> streamOfPosts = allPosts.stream();
+        int id = streamOfPosts.filter(post -> post.getTitle().equals(title)).map(Post::getId).findFirst().orElse(null);
+        return id;
+
     }
 
     @Test

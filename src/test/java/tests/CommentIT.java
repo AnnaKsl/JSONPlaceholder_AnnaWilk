@@ -1,16 +1,17 @@
 package tests;
 
-import endpoints.CommentEndpoint;
-import utils.JsonFormatter;
-import models.Comment;
-import steps.CommentSteps;
 import com.google.gson.Gson;
+import endpoints.CommentEndpoint;
+import models.Comment;
+import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.apache.http.HttpStatus;
-import org.testng.Assert;
+import steps.CommentSteps;
+import utils.JsonFormatter;
+
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class CommentIT extends BaseIT {
     int POST_ID = 1;
@@ -28,7 +29,9 @@ public class CommentIT extends BaseIT {
         var response = commentEndpoint.getAllComments();
         var allComments = Arrays.asList(JsonFormatter.convertFromJson(response, Comment[].class));
         verifyResponseStatusCode(response);
-        Assert.assertEquals(allComments.size(), 500);
+        Assertions.assertEquals(allComments.size(), 500);
+        Stream<Comment> streamOfComments = allComments.stream();
+        streamOfComments.filter(comment -> comment.getId()%2==0).forEach(System.out::println);
     }
 
     @Test
