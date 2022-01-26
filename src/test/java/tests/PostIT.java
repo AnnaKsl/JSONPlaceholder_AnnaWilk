@@ -39,11 +39,11 @@ public class PostIT extends BaseIT {
         int idOfThePost = getSpecificPostId(allPosts,"qui est esse");
         System.out.print("Post with the title 'qui est esse' is the one with id " + idOfThePost);
     }
+
     public static int getSpecificPostId(List<Post> allPosts, String title){
         Stream<Post> streamOfPosts = allPosts.stream();
         int id = streamOfPosts.filter(post -> post.getTitle().equals(title)).map(Post::getId).findFirst().orElse(null);
         return id;
-
     }
 
     @Test
