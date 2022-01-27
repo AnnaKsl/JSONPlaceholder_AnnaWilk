@@ -42,8 +42,10 @@ public class PostIT extends BaseIT {
 
     public static int getSpecificPostId(List<Post> allPosts, String title){
         Stream<Post> streamOfPosts = allPosts.stream();
-        int id = streamOfPosts.filter(post -> post.getTitle().equals(title)).map(Post::getId).findFirst().orElse(null);
-        return id;
+        return streamOfPosts
+                .filter(post -> post.getTitle().equals(title))
+                .map(Post::getId)
+                .findFirst().orElse(null);
     }
 
     @Test

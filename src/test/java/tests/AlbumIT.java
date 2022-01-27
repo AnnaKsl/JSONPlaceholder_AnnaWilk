@@ -8,9 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import steps.AlbumSteps;
 import utils.JsonFormatter;
+
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class AlbumIT extends BaseIT {
 
@@ -26,12 +26,9 @@ public class AlbumIT extends BaseIT {
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
         List<Album> allAlbums = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), Album[].class));
         Assertions.assertEquals(allAlbums.size(), 100);
-        Stream<Album> streamOfAlbums = allAlbums.stream();
-        streamOfAlbums.filter(album -> album.getTitle().contains("bus"))
-                .map(album -> album.getTitle())
+        allAlbums.stream().map(Album::getTitle)
+                .filter(title -> title.contains("bus"))
                 .forEach(System.out::println);
-
-
     }
 
     @Test

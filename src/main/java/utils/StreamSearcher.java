@@ -8,7 +8,6 @@ public class StreamSearcher {
 
     }
     public static <T> Stream<T> returnStream (T[] someArray){
-        Stream<T> streamOfElements = Arrays.stream(someArray);
-        return streamOfElements;
+        return Arrays.stream(someArray);
     }
 }
