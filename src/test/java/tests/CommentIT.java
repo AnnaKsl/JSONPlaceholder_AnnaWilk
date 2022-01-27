@@ -32,7 +32,6 @@ public class CommentIT extends BaseIT {
         Assertions.assertEquals(allComments.size(), 500);
         Stream<Comment> streamOfComments = allComments.stream();
         streamOfComments.filter(comment -> comment.getId()%2 == 0).forEach(System.out::println);
-
         System.out.println("End of test");
     }
 
