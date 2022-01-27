@@ -9,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import steps.CommentSteps;
 import utils.JsonFormatter;
-
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -33,6 +32,7 @@ public class CommentIT extends BaseIT {
         Stream<Comment> streamOfComments = allComments.stream();
         streamOfComments.filter(comment -> comment.getId()%2 == 0).forEach(System.out::println);
         System.out.println("End of test");
+        Assertions.assertEquals(allComments.size(), 500);
     }
 
     @Test
