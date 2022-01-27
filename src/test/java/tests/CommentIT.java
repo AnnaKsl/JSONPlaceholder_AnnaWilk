@@ -29,6 +29,8 @@ public class CommentIT extends BaseIT {
         var allComments = Arrays.asList(JsonFormatter.convertFromJson(response, Comment[].class));
         verifyResponseStatusCode(response);
         Assert.assertEquals(allComments.size(), 500);
+
+        //changes to create problems
     }
 
     @Test
