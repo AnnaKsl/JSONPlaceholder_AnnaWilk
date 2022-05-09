@@ -1,14 +1,12 @@
 package tests;
 
-import models.Post;
-import org.apache.http.HttpStatus;
+import models.PostDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.Arrays;
-import static org.assertj.core.api.Assertions.assertThat;
+import steps.PostSteps;
 
-//nazwe zmiennych żeby miało odpowiednie cases
+import java.util.Arrays;
 
 public class PostIT extends BaseIT {
     int ID = 1;
@@ -20,9 +18,8 @@ public class PostIT extends BaseIT {
     @DisplayName("Verify one post")
     public void getPostTest() {
         var response = postEndpoint.getPost(ID);
-        var post = gson.fromJson(response.jsonPath().prettify(), Post.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-        //osobna klasa na to
+        verifyResponseStatusCodeIsEqualToOK(response);
+        var post = gson.fromJson(response.jsonPath().prettify(), PostDto.class);
         postSteps.verifyPost(post, ID);
     }
 
@@ -30,20 +27,18 @@ public class PostIT extends BaseIT {
     @DisplayName("Verify the number of posts")
     public void getAllPosts() {
         var response = postEndpoint.getAllPosts();
-        var allPosts = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), Post[].class));
+        var allPosts = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), PostDto[].class));
         Assertions.assertEquals(allPosts.size(), 100);
-
-
-
-        //hrllo
+        var idOfThePost = PostSteps.getSpecificPostId(allPosts, "qui est esse");
+        System.out.print("Post with the title 'qui est esse' is the one with id " + idOfThePost);
     }
 
     @Test
     @DisplayName("Verify adding post")
     public void addPostTest() {
         var response = postEndpoint.addPost(USER_ID, TITLE, BODY);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_CREATED);
-        var post = gson.fromJson(response.jsonPath().prettify(), Post.class);
+        verifyResponseStatusCodeIsEqualToCreated(response);
+        var post = gson.fromJson(response.jsonPath().prettify(), PostDto.class);
         postSteps.verifyPost(post, 101);
     }
 
@@ -51,7 +46,7 @@ public class PostIT extends BaseIT {
     @DisplayName("Verify deleting post")
     public void deletePostTest() {
         var response = postEndpoint.deletePost(ID);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
+        verifyResponseStatusCodeIsEqualToOK(response);
     }
 
     @Test
@@ -61,10 +56,8 @@ public class PostIT extends BaseIT {
         var newTitle = "Modified title";
         var body = "new Body";
         var response = postEndpoint.modifyPost(ID, userId, newTitle, body);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.SC_OK);
-        var modifiedComment = gson.fromJson(response.jsonPath().prettify(), Post.class);
+        verifyResponseStatusCodeIsEqualToOK(response);
+        var modifiedComment = gson.fromJson(response.jsonPath().prettify(), PostDto.class);
         postSteps.verifyPost(modifiedComment, userId, newTitle, body);
-
     }
-
 }
