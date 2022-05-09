@@ -2,17 +2,17 @@ package models;
 import lombok.Data;
 
 @Data
-public class Album {
+public class AlbumDto {
     int userId;
     int id;
     String title;
 
-    public Album(int userid, String title){
+    public AlbumDto(int userid, String title){
         this.userId = userid;
         this.title = title;
     }
 
-    public Album(){
+    public AlbumDto(){
 
     }
 }

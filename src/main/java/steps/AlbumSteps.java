@@ -1,13 +1,13 @@
 package steps;
 
-import models.Album;
+import models.AlbumDto;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 
 public class AlbumSteps {
 
 
-    public void verifyAlbum(Album album, int id, int userid, String title) {
+    public void verifyAlbum(AlbumDto album, int id, int userid, String title) {
         var softly = new SoftAssertions();
         softly.assertThat(album.getId()).isEqualTo(id);
         softly.assertThat(album.getUserId()).isEqualTo(userid);
@@ -15,7 +15,7 @@ public class AlbumSteps {
         softly.assertAll();
     }
 
-    public void verifyAlbum(Album album, int id) {
+    public void verifyAlbum(AlbumDto album, int id) {
         Assertions.assertThat(album.getId()).isEqualTo(id);
     }
 }

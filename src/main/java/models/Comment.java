@@ -1,4 +1,6 @@
 package models;
+
+
 import lombok.Data;
 
 @Data
@@ -9,12 +11,10 @@ public class Comment {
     String email;
     String body;
 
-    public Comment(int id,int postID, String name, String testEmail, String body) {
-        this.id = id;
-        this.postId = postID;
-        this.name = name;
-        this.email = testEmail;
-        this.body = body;
+    public String toString() {
+        return "id = " + this.id + ", " + "postId = "
+                + this.postId + ", " + "name = " + this.name +", " + "email = " + this.email + ", " + "body = " + this.body;
     }
-
 }
+
+

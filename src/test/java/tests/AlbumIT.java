@@ -1,16 +1,14 @@
 package tests;
+
 import com.google.gson.Gson;
 import endpoints.AlbumEndpoint;
-import models.Album;
-import org.apache.http.HttpStatus;
+import models.AlbumDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import steps.AlbumSteps;
 import utils.JsonFormatter;
-
 import java.util.Arrays;
-import java.util.List;
 
 public class AlbumIT extends BaseIT {
 
@@ -23,10 +21,10 @@ public class AlbumIT extends BaseIT {
     @DisplayName("Verify all albums")
     public void verifyAllAlbums() {
         var response = albumEndpoint.getAllAlbums();
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
-        List<Album> allAlbums = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), Album[].class));
+        verifyResponseStatusCodeIsEqualToOK(response);
+        var allAlbums = Arrays.asList(gson.fromJson(response.jsonPath().prettify(), AlbumDto[].class));
         Assertions.assertEquals(allAlbums.size(), 100);
-        allAlbums.stream().map(Album::getTitle)
+        allAlbums.stream().map(AlbumDto::getTitle)
                 .filter(title -> title.contains("bus"))
                 .forEach(System.out::println);
     }
@@ -34,13 +32,12 @@ public class AlbumIT extends BaseIT {
     @Test
     @DisplayName("Verify one album")
     public void verifyOneAlbum() {
-        int id = 1;
-        int userID = 1;
-        String title = "quidem molestiae enim";
+        var id = 1;
+        var userID = 1;
+        var title = "quidem molestiae enim";
         var response = albumEndpoint.getAlbum(id);
-        Album album = JsonFormatter.convertFromJson(response, Album.class);
-        Assertions.assertEquals(response.getStatusCode(), HttpStatus.SC_OK);
+        var album = JsonFormatter.convertFromJson(response, AlbumDto.class);
+        verifyResponseStatusCodeIsEqualToOK(response);
         albumSteps.verifyAlbum(album, id, userID, title);
     }
-
 }
